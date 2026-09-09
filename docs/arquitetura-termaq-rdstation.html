@@ -1,0 +1,636 @@
+<title>Linha de Produção Comercial</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+  :root{
+    --bg:#EEF1EF;
+    --surface:#FFFFFF;
+    --surface-2:#F4F7F5;
+    --ink:#1A2321;
+    --ink-soft:#51605B;
+    --ink-faint:#7C8B85;
+    --line:#CDD6D2;
+    --line-strong:#9FACA6;
+    --mkt:#B85E1C;
+    --mkt-soft:#F2DDC2;
+    --mkt-ink:#5C3211;
+    --crm:#245876;
+    --crm-soft:#D7E3E9;
+    --crm-ink:#173B4F;
+    --conv:#1C8457;
+    --conv-soft:#CFE7DA;
+    --conv-ink:#124A31;
+    --decision:#B9821C;
+    --decision-soft:#F2E1B4;
+    --native:#2F7D4F;
+    --native-soft:#DCEEE1;
+    --integ:#9A4A16;
+    --integ-soft:#F4E1CC;
+    --human:#3E4F9A;
+    --human-soft:#DEE2F5;
+    --shadow: 0 1px 2px rgba(20,28,25,.06), 0 8px 24px -12px rgba(20,28,25,.18);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#111815;
+      --surface:#182220;
+      --surface-2:#1D2926;
+      --ink:#E8EFEB;
+      --ink-soft:#AEBDB6;
+      --ink-faint:#7C8F86;
+      --line:#31413C;
+      --line-strong:#495C55;
+      --mkt:#E28C41;
+      --mkt-soft:#3B2712;
+      --mkt-ink:#F4D3AB;
+      --crm:#66A6CC;
+      --crm-soft:#182D38;
+      --crm-ink:#BFE0F2;
+      --conv:#3FC084;
+      --conv-soft:#12321F;
+      --conv-ink:#A9E9C6;
+      --decision:#EFC24E;
+      --decision-soft:#332A11;
+      --native:#4CB37C;
+      --native-soft:#153524;
+      --integ:#E0995B;
+      --integ-soft:#3A2712;
+      --human:#8D9AE8;
+      --human-soft:#242A4D;
+      --shadow: 0 1px 2px rgba(0,0,0,.35), 0 12px 28px -14px rgba(0,0,0,.6);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#111815;
+    --surface:#182220;
+    --surface-2:#1D2926;
+    --ink:#E8EFEB;
+    --ink-soft:#AEBDB6;
+    --ink-faint:#7C8F86;
+    --line:#31413C;
+    --line-strong:#495C55;
+    --mkt:#E28C41;
+    --mkt-soft:#3B2712;
+    --mkt-ink:#F4D3AB;
+    --crm:#66A6CC;
+    --crm-soft:#182D38;
+    --crm-ink:#BFE0F2;
+    --conv:#3FC084;
+    --conv-soft:#12321F;
+    --conv-ink:#A9E9C6;
+    --decision:#EFC24E;
+    --decision-soft:#332A11;
+    --native:#4CB37C;
+    --native-soft:#153524;
+    --integ:#E0995B;
+    --integ-soft:#3A2712;
+    --human:#8D9AE8;
+    --human-soft:#242A4D;
+    --shadow: 0 1px 2px rgba(0,0,0,.35), 0 12px 28px -14px rgba(0,0,0,.6);
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Public Sans',ui-sans-serif,system-ui,sans-serif;
+    line-height:1.5;
+  }
+  h1,h2,h3,.display{
+    font-family:'Big Shoulders Display',ui-sans-serif,system-ui,sans-serif;
+    font-weight:800;
+    letter-spacing:.01em;
+    text-wrap:balance;
+  }
+  .mono{font-family:'IBM Plex Mono',ui-monospace,monospace;}
+  a{color:var(--crm);}
+
+  .wrap{max-width:920px;margin:0 auto;padding:0 24px 96px;}
+  .rule{height:1px;background:repeating-linear-gradient(90deg,var(--line-strong) 0 6px,transparent 6px 12px);margin:0 0 0;}
+
+  /* ---------- HEADER ---------- */
+  header.hero{
+    background:
+      linear-gradient(180deg, var(--surface-2), var(--bg) 78%);
+    border-bottom:1px solid var(--line);
+    padding:56px 24px 40px;
+  }
+  .hero-inner{max-width:920px;margin:0 auto;}
+  .kicker{
+    display:flex;align-items:center;gap:10px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--ink-faint);margin-bottom:18px;
+  }
+  .kicker .dot{width:6px;height:6px;border-radius:50%;background:var(--decision);}
+  h1.title{font-size:clamp(34px,5.4vw,54px);line-height:1.02;margin:0 0 14px;}
+  h1.title em{font-style:normal;color:var(--mkt);}
+  .lede{font-size:17px;color:var(--ink-soft);max-width:62ch;margin:0 0 26px;}
+  .badge-row{display:flex;flex-wrap:wrap;gap:8px;}
+  .prod-badge{
+    display:inline-flex;align-items:center;gap:6px;
+    padding:5px 12px 5px 9px;border-radius:999px;
+    font-size:12.5px;font-weight:600;
+    border:1px solid var(--line-strong);
+    background:var(--surface);color:var(--ink-soft);
+  }
+  .prod-badge .sw{width:9px;height:9px;border-radius:2px;}
+
+  /* ---------- SECTION SCAFFOLDING ---------- */
+  section{padding:56px 0 0;}
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--ink-faint);margin:0 0 8px;
+    display:flex;align-items:center;gap:10px;
+  }
+  .eyebrow .no{color:var(--ink);font-weight:600;}
+  h2.h{font-size:clamp(24px,3.2vw,32px);margin:0 0 10px;}
+  .sub{color:var(--ink-soft);font-size:15px;max-width:64ch;margin:0 0 32px;}
+
+  /* ---------- LEGEND ---------- */
+  .legend{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:10px;margin:0 0 40px;
+  }
+  .legend-item{
+    display:flex;gap:10px;align-items:flex-start;
+    background:var(--surface);border:1px solid var(--line);border-radius:10px;
+    padding:11px 13px;
+  }
+  .legend-swatch{
+    flex:none;width:26px;height:14px;border-radius:4px;margin-top:2px;
+  }
+  .legend-swatch.native{background:var(--native-soft);border:1.5px solid var(--native);}
+  .legend-swatch.integ{background:var(--integ-soft);border:1.5px dashed var(--integ);}
+  .legend-swatch.human{background:var(--human-soft);border:1.5px dotted var(--human);}
+  .legend-txt b{display:block;font-size:12.5px;}
+  .legend-txt span{font-size:12px;color:var(--ink-soft);}
+
+  /* ---------- STATION LINE ---------- */
+  .track{max-width:640px;margin:0 auto;position:relative;}
+  .station{
+    background:var(--surface);border:1px solid var(--line);border-radius:14px;
+    box-shadow:var(--shadow);
+    padding:20px 22px 22px;
+    border-top:4px solid var(--line-strong);
+  }
+  .station.mkt{border-top-color:var(--mkt);}
+  .station.crm{border-top-color:var(--crm);}
+  .station.conv{border-top-color:var(--conv);}
+  .station.end{border-top-color:var(--decision);}
+  .st-head{display:flex;align-items:center;gap:12px;margin-bottom:4px;}
+  .st-num{
+    font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink-faint);
+  }
+  .st-icon{
+    width:34px;height:34px;flex:none;border-radius:9px;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .st-icon.mkt{background:var(--mkt-soft);color:var(--mkt-ink);}
+  .st-icon.crm{background:var(--crm-soft);color:var(--crm-ink);}
+  .st-icon.conv{background:var(--conv-soft);color:var(--conv-ink);}
+  .st-icon.end{background:var(--decision-soft);color:var(--decision);}
+  .st-title{font-family:'Big Shoulders Display';font-weight:700;font-size:20px;}
+  .st-solution{font-size:11.5px;color:var(--ink-faint);font-family:'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:.06em;}
+  .chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px;}
+  .chip{
+    font-size:12.5px;font-weight:600;padding:5px 11px;border-radius:999px;
+    background:var(--surface-2);border:1px solid var(--line);color:var(--ink);
+    display:flex;align-items:center;gap:6px;
+  }
+  .chip .arrow{color:var(--ink-faint);font-weight:400;}
+  .chip.emph{border-color:var(--decision);color:var(--decision);background:var(--decision-soft);}
+
+  .station.marker{
+    text-align:center;padding:11px 18px;border-radius:999px;
+    border:1.5px solid var(--decision);background:var(--decision-soft);
+    box-shadow:none;display:inline-flex;align-items:center;gap:8px;
+    margin:0 auto;
+  }
+  .marker-wrap{display:flex;justify-content:center;}
+  .marker-wrap .st-title{font-size:15px;color:var(--decision);}
+
+  /* connectors */
+  .connector{display:flex;justify-content:center;padding:14px 0;position:relative;}
+  .conn-inner{
+    display:flex;flex-direction:column;align-items:center;gap:6px;max-width:420px;text-align:center;
+  }
+  .conn-line{width:2px;height:20px;background:var(--line-strong);}
+  .conn-line.dashed{background:none;border-left:2px dashed var(--line-strong);width:0;}
+  .conn-arrow{width:12px;height:12px;border-right:2px solid var(--line-strong);border-bottom:2px solid var(--line-strong);transform:rotate(45deg);margin-top:-6px;}
+  .conn-badge{
+    font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.06em;
+    text-transform:uppercase;font-weight:600;padding:3px 9px;border-radius:999px;
+  }
+  .conn-badge.native{background:var(--native-soft);color:var(--native);border:1px solid var(--native);}
+  .conn-badge.integ{background:var(--integ-soft);color:var(--integ);border:1px dashed var(--integ);}
+  .conn-badge.human{background:var(--human-soft);color:var(--human);border:1px dotted var(--human);}
+  .conn-label{font-size:12.5px;color:var(--ink-soft);max-width:340px;}
+
+  /* feedback loop */
+  .loop{
+    max-width:640px;margin:34px auto 0;
+    background:var(--surface-2);border:1px dashed var(--line-strong);border-radius:14px;
+    padding:18px 20px;display:flex;gap:14px;align-items:center;
+  }
+  .loop svg{flex:none;color:var(--ink-faint);}
+  .loop p{margin:0;font-size:13px;color:var(--ink-soft);}
+  .loop b{color:var(--ink);}
+
+  /* ---------- DATA FLOW ---------- */
+  .dataflow{
+    display:flex;flex-wrap:wrap;align-items:center;gap:10px;justify-content:center;
+    background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:26px 22px;
+  }
+  .dtag{
+    font-family:'IBM Plex Mono',monospace;font-size:12.5px;font-weight:500;
+    background:var(--surface-2);border:1px solid var(--line);border-radius:8px;
+    padding:8px 12px;color:var(--ink);
+  }
+  .dtag.big{font-weight:700;background:var(--surface);border-width:1.5px;}
+  .dtag.mkt{border-color:var(--mkt);color:var(--mkt-ink);background:var(--mkt-soft);}
+  .dtag.crm{border-color:var(--crm);color:var(--crm-ink);background:var(--crm-soft);}
+  .dtag.conv{border-color:var(--conv);color:var(--conv-ink);background:var(--conv-soft);}
+  .dsep{color:var(--ink-faint);font-size:15px;}
+  .dgroup{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;padding:8px 4px;border-left:2px dotted var(--line-strong);border-right:2px dotted var(--line-strong);}
+
+  /* ---------- TABLE ---------- */
+  .table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--surface);}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:640px;}
+  th{
+    text-align:left;font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;
+    letter-spacing:.06em;color:var(--ink-faint);font-weight:600;
+    padding:12px 16px;border-bottom:1px solid var(--line);background:var(--surface-2);
+  }
+  td{padding:12px 16px;border-bottom:1px solid var(--line);vertical-align:top;}
+  tr:last-child td{border-bottom:none;}
+  td.stage{font-weight:700;font-family:'Big Shoulders Display';font-size:15.5px;}
+  .pill{
+    display:inline-block;font-size:11.5px;font-weight:600;padding:3px 9px;border-radius:999px;
+  }
+  .pill.mkt{background:var(--mkt-soft);color:var(--mkt-ink);}
+  .pill.crm{background:var(--crm-soft);color:var(--crm-ink);}
+  .pill.conv{background:var(--conv-soft);color:var(--conv-ink);}
+
+  /* ---------- RULES ---------- */
+  .rules{list-style:none;margin:0;padding:0;counter-reset:rule;display:grid;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden;}
+  .rules li{
+    counter-increment:rule;background:var(--surface);padding:16px 20px 16px 64px;position:relative;
+  }
+  .rules li::before{
+    content:counter(rule,decimal-leading-zero);
+    position:absolute;left:18px;top:16px;
+    font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--decision);font-weight:600;
+  }
+  .rules b{display:block;font-size:14.5px;margin-bottom:3px;}
+  .rules span{font-size:13px;color:var(--ink-soft);}
+  .suggest-note{
+    font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--ink-faint);
+    margin:14px 0 30px;
+  }
+
+  /* ---------- BENEFITS ---------- */
+  .benefits{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;}
+  .benefit{
+    background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;
+  }
+  .benefit .bi{width:30px;height:30px;color:var(--native);margin-bottom:10px;}
+  .benefit h3{font-family:'Big Shoulders Display';font-size:17px;margin:0 0 6px;font-weight:700;}
+  .benefit p{font-size:13px;color:var(--ink-soft);margin:0;}
+
+  /* ---------- FOOTER / SOURCES ---------- */
+  footer{
+    max-width:920px;margin:64px auto 0;padding:24px 24px 0;
+    border-top:1px solid var(--line);
+  }
+  .src{font-size:12.5px;color:var(--ink-faint);margin:6px 0;}
+  .src a{color:var(--ink-soft);text-decoration:underline;text-decoration-color:var(--line-strong);}
+  footer .cap{font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-faint);margin-bottom:10px;}
+
+  figure{margin:0;}
+  figcaption{font-size:12.5px;color:var(--ink-faint);text-align:center;margin-top:14px;}
+
+  @media (max-width:640px){
+    .st-title{font-size:18px;}
+    header.hero{padding:44px 20px 32px;}
+  }
+</style>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="kicker"><span class="dot"></span>ARQUITETURA DE JORNADA COMERCIAL &middot; TERMAQ BOBINAS</div>
+    <h1 class="title">Do clique ao <em>faturamento</em>:<br>uma linha de produção comercial</h1>
+    <p class="lede">Como um lead que chega por uma campanha da TERMAQ percorre o ecossistema RD Station &mdash; Marketing, CRM e Conversas &mdash; até se tornar cliente. Cada estação abaixo mostra quem opera, o que se move entre plataformas e o que é nativo versus o que depende de integração.</p>
+    <div class="badge-row">
+      <span class="prod-badge"><span class="sw" style="background:var(--mkt)"></span>RD Station Marketing</span>
+      <span class="prod-badge"><span class="sw" style="background:var(--crm)"></span>RD Station CRM</span>
+      <span class="prod-badge"><span class="sw" style="background:var(--conv)"></span>RD Station Conversas</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<!-- ============ LEGEND ============ -->
+<section id="legenda">
+  <div class="eyebrow"><span class="no">00</span> / Como ler o diagrama</div>
+  <h2 class="h">Nativo, integrado ou manual &mdash; cada seta diz o que é</h2>
+  <p class="sub">Nem toda ponte entre as três soluções já existe pronta. O diagrama sinaliza explicitamente onde a TERMAQ liga uma configuração dentro do RD Station e onde é preciso construir uma integração via API/webhook.</p>
+  <div class="legend">
+    <div class="legend-item">
+      <div class="legend-swatch native"></div>
+      <div class="legend-txt"><b>Nativo</b><span>Recurso pronto dentro do RD Station, às vezes exigindo apenas habilitar uma configuração na conta.</span></div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-swatch integ"></div>
+      <div class="legend-txt"><b>API / Webhook + middleware</b><span>Depende de integração: webhook que dispara uma chamada de API para a outra plataforma.</span></div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-swatch human"></div>
+      <div class="legend-txt"><b>Ação humana</b><span>Executado por uma pessoa do time &mdash; marketing, pré-vendas, vendas ou atendimento &mdash; dentro da ferramenta.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MAIN STATION LINE ============ -->
+<section id="linha">
+  <div class="eyebrow"><span class="no">01</span> / A jornada, estação por estação</div>
+  <h2 class="h">Da campanha à venda</h2>
+  <p class="sub">Leia de cima para baixo: cada card é uma estação da linha; cada conector entre estações mostra o tipo de ponte entre as soluções.</p>
+
+  <div class="track">
+
+    <div class="station">
+      <div class="st-head">
+        <div class="st-icon" style="background:var(--surface-2);color:var(--ink-soft);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 11l17-7-6 17-3-7-7-3z"/></svg>
+        </div>
+        <div><div class="st-num">ESTAÇÃO 1</div><div class="st-title">Atração &mdash; Tráfego Pago</div></div>
+      </div>
+      <div class="chips"><span class="chip">Google / Meta Ads</span><span class="chip">Landing page ou formulário</span></div>
+    </div>
+
+    <div class="connector">
+      <div class="conn-inner">
+        <div class="conn-line"></div>
+        <span class="conn-badge native">Nativo</span>
+        <span class="conn-label">Clique no anúncio leva à LP/formulário do RD Station Marketing, que já captura UTM automaticamente.</span>
+        <div class="conn-arrow"></div>
+      </div>
+    </div>
+
+    <div class="station mkt">
+      <div class="st-head">
+        <div class="st-icon mkt">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4v16M4 6h13l-2 3 2 3H4"/></svg>
+        </div>
+        <div><div class="st-num">ESTAÇÃO 2</div><div class="st-title">RD Station Marketing</div><div class="st-solution">Captura &middot; Identificação &middot; Qualificação &middot; Nutrição</div></div>
+      </div>
+      <div class="chips">
+        <span class="chip">Captura</span><span class="chip arrow">→</span>
+        <span class="chip">Identificação</span><span class="chip arrow">→</span>
+        <span class="chip">Qualificação</span><span class="chip arrow">→</span>
+        <span class="chip">Nutrição</span>
+      </div>
+      <div class="chips" style="margin-top:10px;">
+        <span class="chip emph">⭑ Marcado como Oportunidade</span>
+      </div>
+    </div>
+
+    <div class="connector">
+      <div class="conn-inner">
+        <div class="conn-line"></div>
+        <span class="conn-badge native">Nativo &middot; requer config.</span>
+        <span class="conn-label">Lead atinge critério e é marcado como Oportunidade; com a integração Marketing → CRM habilitada na conta, contato e negociação são criados no CRM.</span>
+        <div class="conn-arrow"></div>
+      </div>
+    </div>
+
+    <div class="marker-wrap">
+      <div class="station marker">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2.9 6.6L22 9.3l-5 4.9 1.2 7.1L12 17.9l-6.2 3.4L7 14.2 2 9.3l7.1-.7z"/></svg>
+        <span class="st-title">LEAD VIRA OPORTUNIDADE</span>
+      </div>
+    </div>
+
+    <div class="connector">
+      <div class="conn-inner">
+        <div class="conn-line"></div>
+        <div class="conn-arrow"></div>
+      </div>
+    </div>
+
+    <div class="station crm">
+      <div class="st-head">
+        <div class="st-icon crm">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+        </div>
+        <div><div class="st-num">ESTAÇÃO 4</div><div class="st-title">RD Station CRM</div><div class="st-solution">Pré-venda &middot; funil comercial</div></div>
+      </div>
+      <div class="chips">
+        <span class="chip">Contato</span><span class="chip arrow">→</span>
+        <span class="chip">Oportunidade</span><span class="chip arrow">→</span>
+        <span class="chip">Pré-venda</span><span class="chip arrow">→</span>
+        <span class="chip">Diagnóstico</span><span class="chip arrow">→</span>
+        <span class="chip">Proposta</span><span class="chip arrow">→</span>
+        <span class="chip emph">Decisão</span>
+      </div>
+    </div>
+
+    <div class="connector">
+      <div class="conn-inner">
+        <div class="conn-line dashed" style="height:20px"></div>
+        <span class="conn-badge integ">API / Webhook + middleware</span>
+        <span class="conn-label">Mudança de etapa no CRM não dispara automação no Marketing por padrão &mdash; requer webhook de negociação + chamada à API do RD Marketing para iniciar um fluxo de nutrição.</span>
+        <div class="conn-arrow" style="border-color:var(--integ)"></div>
+      </div>
+    </div>
+
+    <div class="connector" style="padding-top:0;">
+      <div class="conn-inner">
+        <span class="conn-badge integ">API / Webhook + middleware</span>
+        <span class="conn-label"><b>Momento de decisão:</b> negociação chega à etapa de maior intenção de compra &rarr; webhook do CRM aciona middleware que abre/atribui a conversa no RD Conversas.</span>
+        <div class="conn-arrow" style="border-color:var(--integ)"></div>
+      </div>
+    </div>
+
+    <div class="station conv">
+      <div class="st-head">
+        <div class="st-icon conv">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 8.5 8.5 0 0 1-4-1L3 20l1.3-4.1A8.38 8.38 0 0 1 3.5 11.5 8.5 8.5 0 0 1 12 3a8.4 8.4 0 0 1 9 8.5z"/></svg>
+        </div>
+        <div><div class="st-num">ESTAÇÃO 5</div><div class="st-title">RD Station Conversas</div><div class="st-solution">WhatsApp &middot; cadência comercial</div></div>
+      </div>
+      <div class="chips">
+        <span class="chip">WhatsApp</span><span class="chip arrow">→</span>
+        <span class="chip">Cadência</span><span class="chip arrow">→</span>
+        <span class="chip">Follow-up</span><span class="chip arrow">→</span>
+        <span class="chip">Objeções</span><span class="chip arrow">→</span>
+        <span class="chip emph">Conversão</span>
+      </div>
+      <div class="chips" style="margin-top:10px;">
+        <span class="chip" style="background:var(--surface);color:var(--ink-faint);font-weight:500;">Fora da janela de 24h, exige template aprovado (política WhatsApp Business)</span>
+      </div>
+    </div>
+
+    <div class="connector">
+      <div class="conn-inner">
+        <div class="conn-line dashed" style="height:20px"></div>
+        <span class="conn-badge integ">API / Webhook + middleware</span>
+        <span class="conn-label">Mensagens e desfecho da conversa retornam ao CRM como atividade/histórico via webhook do Conversas + chamada à API do CRM &mdash; não é sincronização automática nativa.</span>
+        <div class="conn-arrow" style="border-color:var(--integ)"></div>
+      </div>
+    </div>
+
+    <div class="station crm">
+      <div class="st-head">
+        <div class="st-icon crm">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v5h5"/></svg>
+        </div>
+        <div><div class="st-num">ESTAÇÃO 6</div><div class="st-title">RD Station CRM</div><div class="st-solution">Atualização da oportunidade</div></div>
+      </div>
+      <div class="chips">
+        <span class="chip">Atualização</span><span class="chip arrow">→</span>
+        <span class="chip">Histórico</span><span class="chip arrow">→</span>
+        <span class="chip emph">Resultado (Ganho/Perdido)</span>
+      </div>
+    </div>
+
+    <div class="connector">
+      <div class="conn-inner">
+        <div class="conn-line"></div>
+        <span class="conn-badge human">Ação humana &middot; nativo no CRM</span>
+        <span class="conn-label">Vendedor(a) registra o fechamento da negociação como Ganho diretamente no funil do CRM.</span>
+        <div class="conn-arrow"></div>
+      </div>
+    </div>
+
+    <div class="station end">
+      <div class="st-head">
+        <div class="st-icon end">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12l5 5L20 7"/></svg>
+        </div>
+        <div><div class="st-num">ESTAÇÃO 7</div><div class="st-title">Cliente</div></div>
+      </div>
+      <div class="chips"><span class="chip">Histórico completo da jornada preservado no CRM</span></div>
+    </div>
+
+  </div>
+
+  <div class="loop">
+    <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v5h5"/></svg>
+    <p><b>Loop de retroalimentação &mdash; </b>histórico de negociações e conversas informa segmentações e novos fluxos de nutrição no RD Marketing, e dá contexto de qualificação ao pré-vendas para os próximos leads da mesma campanha. Esse retorno de dados depende das mesmas pontes de API/webhook sinalizadas acima &mdash; não é um relatório automático único.</p>
+  </div>
+</section>
+
+<!-- ============ DATA VIEW ============ -->
+<section id="dados">
+  <div class="eyebrow"><span class="no">02</span> / Visão de dados</div>
+  <h2 class="h">A informação não fica presa em uma ferramenta</h2>
+  <p class="sub">O mesmo lead carrega dados que se acumulam a cada estação e viajam junto com ele entre as três soluções.</p>
+
+  <div class="dataflow">
+    <span class="dtag big mkt">Lead</span>
+    <span class="dsep">→</span>
+    <div class="dgroup">
+      <span class="dtag">nome</span><span class="dtag">empresa</span><span class="dtag">telefone / WhatsApp</span>
+      <span class="dtag">e-mail</span><span class="dtag">origem</span><span class="dtag">utm_campaign</span>
+      <span class="dtag">produto de interesse</span><span class="dtag">comportamento digital</span>
+    </div>
+    <span class="dsep">→</span>
+    <span class="dtag big mkt">Contato</span>
+    <span class="dsep">→</span>
+    <span class="dtag big crm">Oportunidade</span>
+    <span class="dsep">→</span>
+    <span class="dtag big conv">Interações</span>
+    <span class="dsep">→</span>
+    <span class="dtag big crm">Histórico comercial</span>
+    <span class="dsep">→</span>
+    <span class="dtag big" style="border-color:var(--decision);color:var(--decision);background:var(--decision-soft);">Venda</span>
+  </div>
+</section>
+
+<!-- ============ RESPONSIBILITIES ============ -->
+<section id="responsabilidades">
+  <div class="eyebrow"><span class="no">03</span> / Visão de responsabilidades</div>
+  <h2 class="h">Quem opera cada etapa</h2>
+  <p class="sub">Para cada momento da jornada, quem executa e qual solução RD Station sustenta a ação.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Etapa</th><th>Quem executa</th><th>Solução</th></tr></thead>
+      <tbody>
+        <tr><td class="stage">Atração</td><td>Marketing (mídia paga)</td><td><span class="pill mkt">RD Marketing</span></td></tr>
+        <tr><td class="stage">Captura &amp; identificação</td><td>Automação</td><td><span class="pill mkt">RD Marketing</span></td></tr>
+        <tr><td class="stage">Qualificação</td><td>Automação</td><td><span class="pill mkt">RD Marketing</span></td></tr>
+        <tr><td class="stage">Envio ao CRM</td><td>Sistema (integração)</td><td><span class="pill mkt">RD Marketing</span> → <span class="pill crm">RD CRM</span></td></tr>
+        <tr><td class="stage">Pré-venda / diagnóstico</td><td>Pré-vendas</td><td><span class="pill crm">RD CRM</span></td></tr>
+        <tr><td class="stage">Nutrição por mudança de etapa</td><td>Automação (via integração)</td><td><span class="pill crm">RD CRM</span> → <span class="pill mkt">RD Marketing</span></td></tr>
+        <tr><td class="stage">Momento de decisão</td><td>Sistema (integração)</td><td><span class="pill crm">RD CRM</span> → <span class="pill conv">RD Conversas</span></td></tr>
+        <tr><td class="stage">Cadência / conversação</td><td>Atendimento / Vendas</td><td><span class="pill conv">RD Conversas</span></td></tr>
+        <tr><td class="stage">Retorno do histórico</td><td>Sistema (integração)</td><td><span class="pill conv">RD Conversas</span> → <span class="pill crm">RD CRM</span></td></tr>
+        <tr><td class="stage">Fechamento</td><td>Vendas</td><td><span class="pill crm">RD CRM</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============ RULES ============ -->
+<section id="regras">
+  <div class="eyebrow"><span class="no">04</span> / Regras de negócio</div>
+  <h2 class="h">Estrutura inicial de regras</h2>
+  <p class="sub">Ponto de partida para a TERMAQ validar e ajustar &mdash; nenhuma delas é definitiva.</p>
+  <ol class="rules">
+    <li><b>Origem identificável</b><span>Todo novo lead deve possuir origem (campanha, mídia, anúncio) registrada na captura.</span></li>
+    <li><b>Filtro antes do esforço comercial</b><span>Lead sem critérios mínimos de qualificação não deve consumir tempo de pré-vendas imediatamente.</span></li>
+    <li><b>Toda qualificação vira processo no CRM</b><span>Lead qualificado deve gerar contato e oportunidade correspondentes no funil do CRM.</span></li>
+    <li><b>Etapa dispara relacionamento</b><span>Mudanças relevantes de estágio comercial podem acionar ações de nutrição no Marketing.</span></li>
+    <li><b>Decisão aciona conversa</b><span>O momento de maior intenção de compra deve ativar a cadência de WhatsApp no Conversas.</span></li>
+    <li><b>Interação alimenta histórico</b><span>Toda interação relevante da conversa deve retornar como registro na oportunidade do CRM.</span></li>
+    <li><b>CRM é a fonte da verdade</b><span>O CRM deve sempre representar o estado atual e real da oportunidade.</span></li>
+  </ol>
+  <p class="suggest-note">Critérios de qualificação sugeridos (a validar): perfil da empresa, potencial de compra, necessidade, urgência, produto, volume, localização, interação com campanhas.</p>
+</section>
+
+<!-- ============ BENEFITS ============ -->
+<section id="beneficios">
+  <div class="eyebrow"><span class="no">05</span> / O que a TERMAQ ganha com essa arquitetura?</div>
+  <h2 class="h">Cinco ganhos objetivos</h2>
+  <div class="benefits">
+    <div class="benefit">
+      <svg class="bi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11l17-7-6 17-3-7-7-3z"/></svg>
+      <h3>Melhor aproveitamento dos leads</h3>
+      <p>Cada lead gerado por mídia paga é tratado conforme seu potencial, em vez de seguir um único fluxo padrão.</p>
+    </div>
+    <div class="benefit">
+      <svg class="bi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 22s8-4.5 8-11V5l-8-3-8 3v6c0 6.5 8 11 8 11z"/></svg>
+      <h3>Menos oportunidades perdidas</h3>
+      <p>Oportunidade e histórico ficam centralizados no CRM, reduzindo esquecimentos entre etapas.</p>
+    </div>
+    <div class="benefit">
+      <svg class="bi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 4v3"/></svg>
+      <h3>Processo comercial organizado</h3>
+      <p>Etapas claras do funil substituem o controle informal de planilhas e memória de vendedor.</p>
+    </div>
+    <div class="benefit">
+      <svg class="bi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+      <h3>Atendimento mais rápido</h3>
+      <p>O momento de decisão dispara a abordagem por WhatsApp sem depender de um lembrete manual.</p>
+    </div>
+    <div class="benefit">
+      <svg class="bi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 19V5m0 14h16M8 15l3-3 3 2 4-5"/></svg>
+      <h3>Visão integrada da jornada</h3>
+      <p>Marketing, pré-vendas e vendas enxergam o mesmo histórico do cliente, da campanha à venda.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="cap">Documentação de referência</div>
+  <p class="src">Arquitetura desenhada a partir da documentação pública das APIs RD Station. Pontos que dependem de configuração habilitada na conta, integração via API/webhook ou desenvolvimento de middleware estão sinalizados diretamente nos conectores do diagrama &mdash; nenhum endpoint ou funcionalidade foi presumido além do documentado.</p>
+  <p class="src">RD Station Marketing (RDSM) &middot; <a href="https://developers.rdstation.com/reference/introducao-rdsm">developers.rdstation.com/reference/introducao-rdsm</a></p>
+  <p class="src">RD Station CRM v2 &middot; <a href="https://developers.rdstation.com/reference/crm-v2-introduction">developers.rdstation.com/reference/crm-v2-introduction</a></p>
+  <p class="src">RD Station Conversas v2 &middot; <a href="https://developers.rdstation.com/reference/conversas-v2-introduction">developers.rdstation.com/reference/conversas-v2-introduction</a></p>
+</footer>
+
+</div>
