@@ -47,8 +47,9 @@ export function makeAssetElement(
   point: { x: number; y: number },
   existing: BoardElement[],
 ): BoardElement {
-  const width = asset.type === 'screenshot' ? 220 : 120;
-  const height = asset.type === 'screenshot' ? 140 : 120;
+  const isRealScreenshot = asset.type === 'screenshot' && asset.kind === 'image';
+  const width = isRealScreenshot ? 190 : asset.type === 'screenshot' ? 220 : 120;
+  const height = isRealScreenshot ? 268 : asset.type === 'screenshot' ? 140 : 120;
   return makeElement(
     'image',
     { x: point.x - width / 2, y: point.y - height / 2, width, height },
