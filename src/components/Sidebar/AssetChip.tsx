@@ -27,14 +27,20 @@ export default function AssetChip({ asset }: { asset: Asset }) {
           width: 40,
           height: 40,
           borderRadius: 9,
-          background: asset.color,
+          background: asset.kind === 'image' ? '#ffffff' : asset.color,
+          border: asset.kind === 'image' ? '1px solid #E7EBF1' : 'none',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           color: 'white',
+          padding: asset.kind === 'image' ? 7 : 0,
         }}
       >
-        <Icon size={18} />
+        {asset.kind === 'image' && asset.imageUrl ? (
+          <img src={asset.imageUrl} alt={asset.name} style={{ width: '100%', height: '100%', objectFit: 'contain' }} draggable={false} />
+        ) : (
+          <Icon size={18} />
+        )}
       </div>
       <span className="asset-chip-label">{asset.name.replace(`${asset.solution} — `, '')}</span>
     </div>

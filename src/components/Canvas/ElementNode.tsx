@@ -151,7 +151,7 @@ export default function ElementNode({
       return (
         <Group {...commonGroupProps}>
           {el.imageUrl ? (
-            <ImageFill url={el.imageUrl} width={el.width} height={el.height} />
+            <ImageFill url={el.imageUrl} width={el.width} height={el.height} contain={!!el.assetId} />
           ) : (
             <>
               <Rect width={el.width} height={el.height} fill={style.fill ?? '#1857A4'} cornerRadius={10} />
@@ -246,8 +246,41 @@ export default function ElementNode({
   }
 }
 
-function ImageFill({ url, width, height }: { url: string; width: number; height: number }) {
+function ImageFill({
+  url,
+  width,
+  height,
+  contain,
+}: {
+  url: string;
+  width: number;
+  height: number;
+  contain?: boolean;
+}) {
   const img = useHtmlImage(url);
   if (!img) return <Rect width={width} height={height} fill="#E7EBF1" cornerRadius={6} />;
-  return <KonvaImage image={img} width={width} height={height} cornerRadius={6} />;
+
+  if (!contain) {
+    return <KonvaImage image={img} width={width} height={height} cornerRadius={6} />;
+  }
+
+  // Asset-library logos/icons: show on a white card, fit without stretching.
+  const padding = Math.min(width, height) * 0.16;
+  const availW = width - padding * 2;
+  const availH = height - padding * 2;
+  const scale = Math.min(availW / img.width, availH / img.height, 1);
+  const drawW = img.width * scale;
+  const drawH = img.height * scale;
+  return (
+    <>
+      <Rect width={width} height={height} fill="#ffffff" stroke="#E7EBF1" strokeWidth={1} cornerRadius={10} />
+      <KonvaImage
+        image={img}
+        x={(width - drawW) / 2}
+        y={(height - drawH) / 2}
+        width={drawW}
+        height={drawH}
+      />
+    </>
+  );
 }
